@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="favicon.png">
+  <title>unstable coin</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      overflow-x: hidden;
+    }
+
+    .background-graph {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+    }
+
+    .top-right-logo {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 25vw;
+      max-width: 120px;
+      height: auto;
+      z-index: 2;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .logo {
+      max-width: 150px;
+      margin-bottom: 20px;
+      width: 50vw;
+    }
+
+    h1 {
+      color: #2b72d6;
+      font-size: 2.5em;
+      margin: 0;
+    }
+
+    p, p2 {
+      font-size: 1.2em;
+      color: #333;
+      margin: 10px 0;
+    }
+
+    .buttons {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .buttons a button {
+      padding: 10px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      background-color: #2b72d6;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .buttons a button:hover {
+      background-color: #1a4e99;
+    }
+
+    .text-containers {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+      gap: 15px;
+      padding: 0 10px;
+    }
+
+    .text-box {
+      font-family: monospace;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 15px 25px;
+      border: 2px solid #2b72d6;
+      border-radius: 10px;
+      max-width: 600px;
+      width: 100%;
+      font-size: 1em;
+      color: #222;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2em;
+      }
+
+      .logo {
+        max-width: 120px;
+      }
+
+      .top-right-logo {
+        width: 60px;
+      }
+
+      .text-box {
+        font-size: 0.95em;
+        padding: 12px 20px;
+      }
+      
+      .text-box button {
+        font-size: 0.8em !important;
+        padding: 6px 10px !important;
+      }
+    }
+    .tweet-feed {
+      width: 100%;
+      max-width: 600px;
+      margin: 40px auto 0;
+      padding: 0 10px;
+    }
+  </style>
+</head>
+<body>
+  <canvas class="background-graph"></canvas>
+
+  <!-- <img src="logo2.png" alt="Secondary logo" class="top-right-logo"> -->
+
+  <div class="container">
+    <img src="logo1.png" alt="USDUC logo" class="logo">
+    <h1>$USDUC</h1>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 5px 0;">
+      <p>first ever unstable coin</p>
+      <span style="background: linear-gradient(45deg, #2b72d6, #1a4e99); color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.7em; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">NOW Omnichain</span>
+    </div>
+	<p2>u can't get rich by holding stablecoins</p2>
+    <div class="buttons">
+      <a href="https://x.com/i/communities/1924228684744941841" target="_blank"><button>X Community</button></a>
+	  <a href="https://x.com/usduc_coin" target="_blank"><button>X Account</button></a>
+      <a href="https://dexscreener.com/solana/bax9m9a5fvy5cniewwnuwkvdzhsg9psznb4fj9r677tn" target="_blank"><button>Chart</button></a>
+	  <a href="https://coinmarketcap.com/currencies/unstable-coin-sol/" target="_blank"><button>CoinMarketCap</button></a>
+    </div>
+
+    <div class="text-containers">
+      <div class="text-box">
+        <div style="margin-bottom: 15px;">
+          <div style="margin-bottom: 8px; word-break: break-all;">SOL CA: <span id="ca-text">CB9dDufT3ZuQXqqSfa1c5kY935TEreyBw9XJXxHKpump</span></div>
+          <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+            <button onclick="copyCA()" style="padding: 8px 12px; font-size: 0.85em; border: none; background-color: #2b72d6; color: white; border-radius: 5px; cursor: pointer; white-space: nowrap;">Copy</button>
+            <a href="https://jup.ag/swap/So11111111111111111111111111111111111111112-CB9dDufT3ZuQXqqSfa1c5kY935TEreyBw9XJXxHKpump" target="_blank"><button class="buy-btn" style="padding: 8px 12px; font-size: 0.85em; border: none; background-color: #2b72d6; color: white; border-radius: 5px; cursor: pointer; white-space: nowrap;">Buy on jup.ag</button></a>
+          </div>
+        </div>
+        <div>
+          <div style="margin-bottom: 8px; word-break: break-all;">ETH/Base CA: <span id="eth-base-ca-text">0xeceDb6F8108b9f7Bbf499dA843DcED6C2Bb6E270</span></div>
+          <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;">
+            <button onclick="copyETHBaseCA()" style="padding: 8px 12px; font-size: 0.85em; border: none; background-color: #2b72d6; color: white; border-radius: 5px; cursor: pointer; white-space: nowrap;">Copy</button>
+            <a href="https://app.uniswap.org/swap?chain=mainnet&inputCurrency=NATIVE&outputCurrency=0xecedb6f8108b9f7bbf499da843dced6c2bb6e270&value=1&field=input" target="_blank"><button class="buy-btn" style="padding: 8px 12px; font-size: 0.85em; border: none; background-color: #2b72d6; color: white; border-radius: 5px; cursor: pointer; white-space: nowrap;">Uniswap</button></a>
+            <a href="https://aerodrome.finance/swap?from=eth&to=0xecedb6f8108b9f7bbf499da843dced6c2bb6e270&chain0=8453&chain1=8453" target="_blank"><button class="buy-btn" style="padding: 8px 12px; font-size: 0.85em; border: none; background-color: #2b72d6; color: white; border-radius: 5px; cursor: pointer; white-space: nowrap;">Aerodrome</button></a>
+          </div>
+        </div>
+      </div>
+      <div class="text-box">unstable coin, u buy it before u go to sleep and don't know if'll be millionaire or hobo by the time u wake up.</div>
+      <div class="text-box">high Volatility!!!</div>
+      <div class="text-box">made for unstable people.</div>
+	  <div class="text-box">Get rich or die trying.</div>
+    </div>
+
+    <div class="tweet-feed">
+      <a class="twitter-timeline" 
+         data-theme="light" 
+         data-height="500" 
+         href="https://twitter.com/search?q=%24USDUC&src=typed_query&f=live">
+         Tweets about $USDUC
+      </a> 
+    </div>
+
+    <footer style="margin-top: 40px; padding: 15px; text-align: center; font-size: 0.7em; color: #666; border-top: 1px solid #eee;">
+      <div style="margin-bottom: 10px;">
+        <a href="https://drive.google.com/drive/folders/1wGHQJ3AttPyTgBOoXglkatCkWXYdYbEw?usp=sharing" target="_blank" style="color: #666; text-decoration: none; margin: 0 8px; transition: color 0.2s;" onmouseover="this.style.color='#2b72d6'" onmouseout="this.style.color='#666'">Brand Kit</a>
+        <a href="https://thegreatunstabling.com" target="_blank" style="color: #666; text-decoration: none; margin: 0 8px; transition: color 0.2s;" onmouseover="this.style.color='#2b72d6'" onmouseout="this.style.color='#666'">The Great Unstabling</a>
+        <a href="https://bridge.usduc.org/" target="_blank" style="color: #666; text-decoration: none; margin: 0 8px; transition: color 0.2s;" onmouseover="this.style.color='#2b72d6'" onmouseout="this.style.color='#666'">LayerZero Bridge</a>
+      </div>
+      <div style="max-width: 700px; margin: 0 auto; line-height: 1.3;">
+        $USDUC is a highly volatile meme coin with no intrinsic value, no utility beyond entertainment, and no expectation of financial return. $USDUC is for satirical and entertainment purposes only and not backed by any assets, team, or roadmap. When you purchase $USDUC, you agree you've seen this disclaimer and accept all risks at your own expense.
+      </div>
+      <div style="margin-top: 10px; color: #999;">
+        © 2025 - USDUC | <a href="https://drive.google.com/file/u/1/d/1LQXFtggAcUC1F6dYkITq7azFHOuPDgiU/view" target="_blank" style="color: #999; text-decoration: none;">MiCA WP</a>
+      </div>
+    </footer>
+
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<script>
+    const canvas = document.querySelector('.background-graph');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    const dataPoints = [];
+    const maxPoints = 200;
+    const stepX = 5;
+    let offset = 0;
+
+    function updateData() {
+      if (dataPoints.length >= maxPoints) {
+        dataPoints.shift();
+      }
+      const lastY = dataPoints.length > 0 ? dataPoints[dataPoints.length - 1].y : height / 2;
+      const nextY = lastY + (Math.random() - 0.5) * 100;
+      dataPoints.push({ x: offset, y: Math.max(0, Math.min(height, nextY)) });
+      offset += stepX;
+    }
+
+    function drawGraph() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.beginPath();
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = '#0000cc';
+
+      for (let i = 0; i < dataPoints.length; i++) {
+        const point = dataPoints[i];
+        const x = i * stepX;
+        const y = point.y;
+
+        if (i === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          const jitterX = x + (Math.random() - 0.5) * 9;
+          const jitterY = y + (Math.random() - 0.5) * 4;
+          ctx.lineTo(jitterX, jitterY);
+        }
+      }
+      ctx.stroke();
+    }
+
+    function animate() {
+      setTimeout(() => {
+        updateData();
+        drawGraph();
+        requestAnimationFrame(animate);
+      }, 100);
+    }
+
+    animate();
+  function copyCA() {
+    const text = document.getElementById('ca-text').textContent;
+    navigator.clipboard.writeText(text);
+  }
+  
+  function copyETHBaseCA() {
+    const text = document.getElementById('eth-base-ca-text').textContent;
+    navigator.clipboard.writeText(text);
+  }
+</script>
+</body>
+</html>
