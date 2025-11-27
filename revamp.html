@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="favicon.png">
+  <title>$USDUC</title>
+  <style>
+    [data-theme="dark"] {
+      --bg: #050508;
+      --text: #fff;
+      --text-dim: #666;
+      --card-bg: rgba(255,255,255,0.02);
+      --line: rgba(255,255,255,0.15);
+    }
+
+    [data-theme="light"] {
+      --bg: #fff;
+      --text: #000;
+      --text-dim: #777;
+      --card-bg: rgba(0,0,0,0.02);
+      --line: rgba(0,0,0,0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      overflow: hidden;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    canvas#graph {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      opacity: 0.5;
+    }
+
+    /* Rough edges SVG filter */
+    .rough-filter {
+      position: absolute;
+      width: 0;
+      height: 0;
+    }
+
+    .mode {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 10;
+      font-size: 0.75em;
+      cursor: pointer;
+      background: var(--card-bg);
+      border: 2px solid var(--line);
+      padding: 8px 14px;
+      color: var(--text-dim);
+      transition: all 0.2s;
+      text-transform: lowercase;
+      border-radius: 2px 8px 2px 6px;
+    }
+
+    .mode:hover { color: var(--text); border-color: var(--text); }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      gap: 14px;
+    }
+
+    .logo { width: 80px; }
+
+    h1 {
+      font-size: 4.5em;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: #2b72d6;
+      text-shadow: 3px 3px 0 rgba(43,114,214,0.2);
+    }
+
+    .tagline {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-dim);
+      font-size: 0.95em;
+    }
+
+    .badge {
+      background: #2b72d6;
+      color: #fff;
+      padding: 4px 10px;
+      font-size: 0.6em;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-radius: 1px 6px 2px 5px;
+      transform: rotate(-1deg);
+    }
+
+    .pitch {
+      color: var(--text-dim);
+      font-size: 0.9em;
+      font-style: italic;
+    }
+
+    .buy-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      font-size: 0.85em;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.1s;
+      border: none;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .btn-blue {
+      background: #2b72d6;
+      color: #fff;
+      border-radius: 3px 8px 4px 6px;
+    }
+
+    .btn-blue:hover { 
+      background: #1f5eb3;
+      transform: translate(-1px, -1px);
+    }
+
+    .btn-ghost {
+      background: var(--card-bg);
+      color: var(--text);
+      border: 2px solid var(--line);
+      border-radius: 5px 2px 6px 3px;
+    }
+
+    .btn-ghost:hover { 
+      border-color: var(--text);
+    }
+
+    .cards-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 720px;
+      width: 100%;
+    }
+
+    .ca-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .ca-card {
+      flex: 1;
+      min-width: 250px;
+      max-width: 350px;
+      background: var(--card-bg);
+      border: 2px solid var(--line);
+      padding: 14px;
+      text-align: left;
+      border-radius: 4px 10px 6px 8px;
+    }
+
+    .ca-label {
+      font-size: 0.65em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .ca-address {
+      font-family: monospace;
+      font-size: 0.58em;
+      color: var(--text);
+      word-break: break-all;
+      margin-bottom: 10px;
+      opacity: 0.7;
+    }
+
+    .ca-btns { display: flex; gap: 6px; }
+
+    .ca-btns .btn {
+      padding: 6px 12px;
+      font-size: 0.7em;
+    }
+
+    .featured-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .featured-card {
+      flex: 1;
+      min-width: 250px;
+      max-width: 350px;
+      background: rgba(255,92,53,0.08);
+      border: 2px solid #ff5c35;
+      padding: 16px 20px;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.1s;
+      border-radius: 6px 3px 8px 4px;
+    }
+
+    .featured-card:hover {
+      background: rgba(255,92,53,0.15);
+      transform: translate(-1px, -1px);
+    }
+
+    .featured-card span {
+      color: #ff5c35;
+      font-weight: 800;
+      font-size: 0.95em;
+      letter-spacing: 0.05em;
+    }
+
+    .vibe {
+      font-size: 0.85em;
+      color: var(--text-dim);
+    }
+
+    .vibe strong {
+      color: #ff5c35;
+      font-weight: 700;
+    }
+
+    .social {
+      display: flex;
+      gap: 15px;
+      font-size: 0.85em;
+    }
+
+    .social a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 4px 0;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.15s;
+    }
+
+    .social a:hover { border-color: #2b72d6; }
+
+    .footer {
+      position: fixed;
+      bottom: 12px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      font-size: 0.6em;
+      color: var(--text-dim);
+      z-index: 10;
+    }
+
+    .footer a {
+      color: var(--text-dim);
+      text-decoration: none;
+      opacity: 0.5;
+    }
+
+    .footer a:hover { opacity: 1; }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 3em; }
+      .logo { width: 60px; }
+      .ca-card, .featured-card { min-width: 100%; }
+      .container { gap: 12px; }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <canvas id="graph"></canvas>
+
+  <button class="mode" onclick="flip()">
+    <span id="modeText">feeling stable?</span>
+  </button>
+
+  <div class="container">
+    <img src="logo1.png" alt="" class="logo">
+    <h1>$USDUC</h1>
+    
+    <div class="tagline">
+      first ever unstable coin
+      <span class="badge">Omnichain</span>
+    </div>
+    
+    <p class="pitch">u can't get rich holding stablecoins</p>
+
+    <div class="buy-row">
+      <a href="https://jup.ag/swap/So11111111111111111111111111111111111111112-CB9dDufT3ZuQXqqSfa1c5kY935TEreyBw9XJXxHKpump" target="_blank" class="btn btn-blue">Jupiter</a>
+      <a href="https://app.uniswap.org/swap?chain=mainnet&inputCurrency=NATIVE&outputCurrency=0xecedb6f8108b9f7bbf499da843dced6c2bb6e270" target="_blank" class="btn btn-blue">Uniswap</a>
+      <a href="https://dexscreener.com/solana/bax9m9a5fvy5cniewwnuwkvdzhsg9psznb4fj9r677tn" target="_blank" class="btn btn-ghost">Chart</a>
+      <a href="https://coinmarketcap.com/currencies/unstable-coin-sol/" target="_blank" class="btn btn-ghost">CMC</a>
+    </div>
+
+    <div class="cards-section">
+      <div class="ca-row">
+        <div class="ca-card">
+          <div class="ca-label">Solana</div>
+          <div class="ca-address" id="sol">CB9dDufT3ZuQXqqSfa1c5kY935TEreyBw9XJXxHKpump</div>
+          <div class="ca-btns">
+            <button onclick="cp('sol',this)" class="btn btn-ghost">Copy</button>
+            <a href="https://jup.ag/swap/So11111111111111111111111111111111111111112-CB9dDufT3ZuQXqqSfa1c5kY935TEreyBw9XJXxHKpump" target="_blank" class="btn btn-blue">Buy</a>
+          </div>
+        </div>
+        <div class="ca-card">
+          <div class="ca-label">ETH / Base</div>
+          <div class="ca-address" id="eth">0xeceDb6F8108b9f7Bbf499dA843DcED6C2Bb6E270</div>
+          <div class="ca-btns">
+            <button onclick="cp('eth',this)" class="btn btn-ghost">Copy</button>
+            <a href="https://app.uniswap.org/swap?chain=mainnet&inputCurrency=NATIVE&outputCurrency=0xecedb6f8108b9f7bbf499da843dced6c2bb6e270" target="_blank" class="btn btn-blue">Uni</a>
+            <a href="https://aerodrome.finance/swap?from=eth&to=0xecedb6f8108b9f7bbf499da843dced6c2bb6e270&chain0=8453&chain1=8453" target="_blank" class="btn btn-blue">Aero</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="featured-row">
+        <a href="https://bridge.usduc.io/" target="_blank" class="featured-card">
+          <span>BRIDGE</span>
+        </a>
+        <a href="https://thegreatunstabling.com" target="_blank" class="featured-card">
+          <span>THE GREAT UNSTABLING</span>
+        </a>
+      </div>
+    </div>
+
+    <p class="vibe"><strong>HIGH VOLATILITY</strong> · made for unstable people · <strong>get rich or die trying</strong></p>
+
+    <div class="social">
+      <a href="https://x.com/usduc_official" target="_blank">@usduc_official</a>
+      <a href="https://x.com/i/communities/1924228684744941841" target="_blank">Community</a>
+    </div>
+  </div>
+
+  <div class="footer">
+    <a href="https://drive.google.com/drive/folders/1wGHQJ3AttPyTgBOoXglkatCkWXYdYbEw?usp=sharing" target="_blank">Brand Kit</a>
+    <a href="https://drive.google.com/file/u/1/d/1LQXFtggAcUC1F6dYkITq7azFHOuPDgiU/view" target="_blank">MiCA</a>
+    <span>© 2025</span>
+  </div>
+
+  <script>
+    const phrases = [
+      "feeling stable?",
+      "embrace chaos",
+      "ngmi with stables",
+      "volatility is freedom",
+      "rug yourself",
+      "sleep is for the stable",
+      "1000x or food stamps"
+    ];
+
+    let dark = true;
+
+    function flip() {
+      dark = !dark;
+      document.body.dataset.theme = dark ? 'dark' : 'light';
+      document.getElementById('modeText').textContent = phrases[Math.floor(Math.random() * phrases.length)];
+    }
+
+    function cp(id, btn) {
+      navigator.clipboard.writeText(document.getElementById(id).textContent);
+      btn.textContent = 'copied';
+      setTimeout(() => btn.textContent = 'Copy', 800);
+    }
+
+    const canvas = document.getElementById('graph');
+    const ctx = canvas.getContext('2d');
+    let w, h;
+
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const pts = [];
+    const max = 350;
+
+    // Pre-fill
+    let y = Math.random() * h;
+    for (let i = 0; i < max; i++) {
+      const v = 80 + Math.random() * 120;
+      y = y + (Math.random() - 0.5) * v;
+      y = Math.max(5, Math.min(h - 5, y));
+      pts.push(y);
+    }
+
+    function tick() {
+      pts.shift();
+      const last = pts[pts.length - 1];
+      const v = 80 + Math.random() * 120;
+      const next = last + (Math.random() - 0.5) * v;
+      pts.push(Math.max(5, Math.min(h - 5, next)));
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      
+      const grad = ctx.createLinearGradient(0, 0, w, 0);
+      grad.addColorStop(0, '#2b72d6');
+      grad.addColorStop(0.6, '#5a9cf5');
+      grad.addColorStop(1, '#ff5c35');
+      
+      ctx.beginPath();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = grad;
+      ctx.lineJoin = 'bevel';
+
+      const step = w / max;
+      for (let i = 0; i < pts.length; i++) {
+        const x = i * step + (Math.random() - 0.5) * 3;
+        const y = pts[i] + (Math.random() - 0.5) * 2;
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+
+    (function loop() {
+      tick();
+      draw();
+      setTimeout(() => requestAnimationFrame(loop), 50);
+    })();
+  </script>
+</body>
+</html>
