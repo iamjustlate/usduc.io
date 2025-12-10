@@ -9,101 +9,515 @@
   
   <!-- OpenGraph Meta Tags -->
   <meta property="og:title" content="Thesis – USDUC"/>
-  <meta property="og:description" content="Investor information for USDUC - The Unstable Stablecoin"/>
-  <meta property="og:url" content="https://usduc.io/Thesis"/>
+  <meta property="og:description" content="USDUC is the first volatility-backed Unstable Coin, turning instability into an economic engine."/>
+  <meta property="og:url" content="https://usduc.io/thesis"/>
   <meta property="og:type" content="website"/>
   
   <style>
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #ffffff;
-      color: #333;
-      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      line-height: 1.7;
     }
 
     .container {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 40px 20px;
+      padding: 40px 24px;
     }
 
-    h1 {
-      color: #2b72d6;
-      font-size: 2em;
-      margin-bottom: 10px;
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 50px;
+      flex-wrap: wrap;
+      gap: 16px;
     }
 
-    p {
-      margin: 10px 0;
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
 
-    a {
-      color: #2b72d6;
-      text-decoration: none;
+    .logo-img {
+      width: 56px;
+      height: 56px;
     }
 
-    a:hover {
-      text-decoration: underline;
+    .logo-text {
+      font-size: 1.8em;
+      font-weight: 700;
+      color: #4ade80;
+      letter-spacing: -0.02em;
     }
 
     .back-link {
-      display: inline-block;
-      margin-bottom: 20px;
-      padding: 8px 16px;
-      background-color: #2b72d6;
-      color: white;
-      border-radius: 5px;
+      padding: 10px 20px;
+      background: rgba(74, 222, 128, 0.1);
+      color: #4ade80;
+      border-radius: 8px;
       text-decoration: none;
+      font-size: 0.9em;
+      border: 1px solid rgba(74, 222, 128, 0.3);
+      transition: all 0.2s;
     }
 
     .back-link:hover {
-      background-color: #1a4e99;
-      text-decoration: none;
+      background: rgba(74, 222, 128, 0.2);
     }
 
-    .placeholder-box {
+    /* Hero Section */
+    .hero {
+      margin-bottom: 60px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2em, 5vw, 3em);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #4ade80 0%, #22d3ee 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subline {
+      font-size: 1.25em;
+      color: #a0a0a0;
+      margin-bottom: 32px;
+      max-width: 700px;
+    }
+
+    .hero-description {
+      color: #c0c0c0;
+      margin-bottom: 20px;
+      font-size: 1.05em;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, rgba(74, 222, 128, 0.1) 0%, rgba(34, 211, 238, 0.1) 100%);
+      border: 1px solid rgba(74, 222, 128, 0.2);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 32px 0;
+    }
+
+    .highlight-box p {
+      margin-bottom: 16px;
+    }
+
+    .highlight-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .tagline {
+      font-size: 1.2em;
+      font-weight: 600;
+      color: #4ade80;
+      margin-top: 24px;
+    }
+
+    /* Section Styling */
+    .section {
+      margin-bottom: 60px;
+    }
+
+    .section-title {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid rgba(74, 222, 128, 0.3);
+    }
+
+    /* Partners Grid */
+    .partners-label {
+      font-size: 0.85em;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #888;
+      margin-bottom: 16px;
+    }
+
+    .logo-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+
+    .logo-grid img {
+      height: 36px;
+      width: auto;
+      filter: brightness(0) invert(1);
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+
+    .logo-grid img:hover {
+      opacity: 1;
+    }
+
+    .logo-grid .pumpfun-logo {
+      height: 44px;
+      filter: none;
+    }
+
+    .logo-grid .vikara-logo {
+      filter: brightness(0) invert(1);
+      height: 28px;
+    }
+
+    /* Chains */
+    .chains-section {
       margin-top: 40px;
-      padding: 40px;
-      border: 2px dashed #2b72d6;
-      border-radius: 10px;
-      text-align: center;
-      color: #666;
     }
 
-    footer {
-      margin-top: 60px;
-      padding: 15px;
+    .chain-logos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .chain-logos img {
+      height: 32px;
+      width: auto;
+      opacity: 0.9;
+    }
+
+    /* Links */
+    .cta-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+      color: #000;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1em;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 16px;
+    }
+
+    .cta-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(74, 222, 128, 0.3);
+    }
+
+    /* Tweets Grid */
+    .tweets-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+
+    .tweet-link {
+      display: block;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      color: #a0a0a0;
+      text-decoration: none;
+      font-size: 0.9em;
+      transition: all 0.2s;
+    }
+
+    .tweet-link:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(74, 222, 128, 0.3);
+      color: #fff;
+    }
+
+    .tweet-link .handle {
+      color: #4ade80;
+      font-weight: 600;
+    }
+
+    /* Documents */
+    .doc-card {
+      display: block;
+      padding: 24px;
+      background: rgba(74, 222, 128, 0.05);
+      border: 1px solid rgba(74, 222, 128, 0.2);
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .doc-card:hover {
+      background: rgba(74, 222, 128, 0.1);
+      border-color: rgba(74, 222, 128, 0.4);
+    }
+
+    .doc-card h3 {
+      color: #fff;
+      font-size: 1.1em;
+      margin-bottom: 8px;
+    }
+
+    .doc-card p {
+      color: #888;
+      font-size: 0.9em;
+    }
+
+    /* Connect */
+    .connect-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .connect-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.95em;
+      transition: all 0.2s;
+    }
+
+    .connect-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(74, 222, 128, 0.4);
+    }
+
+    .connect-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .final-cta {
+      margin-top: 40px;
+      padding: 32px;
+      background: linear-gradient(135deg, rgba(74, 222, 128, 0.1) 0%, rgba(34, 211, 238, 0.05) 100%);
+      border-radius: 16px;
       text-align: center;
-      font-size: 0.7em;
+    }
+
+    .final-cta p {
+      font-size: 1.1em;
+      color: #c0c0c0;
+      margin-bottom: 8px;
+    }
+
+    .final-cta .big-text {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: #4ade80;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 80px;
+      padding: 24px 0;
+      text-align: center;
+      font-size: 0.8em;
       color: #666;
-      border-top: 1px solid #eee;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     footer a {
-      color: #999;
-      margin: 0 8px;
+      color: #888;
+      margin: 0 12px;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: #4ade80;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 600px) {
+      .container {
+        padding: 24px 16px;
+      }
+
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .logo-grid img {
+        height: 28px;
+      }
+
+      .logo-grid .pumpfun-logo {
+        height: 36px;
+      }
+
+      .chain-logos img {
+        height: 26px;
+      }
+
+      .tweets-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <a href="https://usduc.io/" class="back-link">← Back to Home</a>
-    
-    <h1>📈 Thesis</h1>
-    
-    <div class="placeholder-box">
-      <p style="font-size: 1.2em; margin-bottom: 20px;">Coming Soon</p>
-      <p>Investor information and resources will be available here.</p>
-      <p style="margin-top: 20px;">For inquiries: <a href="mailto:unstablecoinsolana@gmail.com">unstablecoinsolana@gmail.com</a></p>
-    </div>
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-section">
+        <img src="assets/pumpfun.png" alt="USDUC" class="logo-img">
+        <span class="logo-text">USDUC</span>
+      </div>
+      <a href="https://usduc.io/" class="back-link">← Back to Home</a>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1>The First Volatility-Backed Unstable Coin</h1>
+      <p class="hero-subline">Turning instability into an economic engine.</p>
+      
+      <p class="hero-description">
+        Traditional stablecoins suppress volatility. USDUC uses it to generate attention, liquidity, and non-stop on-chain activity.
+      </p>
+      <p class="hero-description">
+        The core team behind USDUC includes veterans in the memecoin and DeFi space, bringing together years of experience building billion dollar crypto projects.
+      </p>
+
+      <div class="highlight-box">
+        <p>The stablecoin market is <strong>$300B today</strong> and projected to reach <strong>$3T+ by 2030</strong>. It is pegged, permissioned, and narratively empty.</p>
+        <p>Unstable Coin brings forth an anti TradFi vehicle, ground up, for a future "neo-bank" sector filled with hundreds of stablecoins. <strong>USDUC targets 10-25%</strong> of this market by offering a meme-native, story-driven alternative built for culture and engagement.</p>
+      </div>
+
+      <p class="hero-description">
+        USDUC now expands into DeFi's missing <strong>Unstable Layer</strong>: volatility farming, bribe markets, community vaults, bots, and liquidity engines. Memetic DeFi for the hungry cypherpunk builder crowd.
+      </p>
+
+      <p class="tagline">Memes generate attention. Volatility creates action. USDUC turns both into economic value.</p>
+    </section>
+
+    <!-- Partners Section -->
+    <section class="section">
+      <h2 class="section-title">Partners & Traction</h2>
+      
+      <p class="partners-label">Backed By</p>
+      <div class="logo-grid">
+        <img src="assets/pumpfun.png" alt="Pump.fun" class="pumpfun-logo">
+        <img src="assets/kraken.png" alt="Kraken">
+        <img src="assets/chainlink.png" alt="Chainlink">
+        <img src="assets/gala.png" alt="Gala">
+        <img src="assets/vikara.png" alt="Vikara Capital" class="vikara-logo">
+      </div>
+
+      <div class="chains-section">
+        <p class="partners-label">Trading On</p>
+        <div class="chain-logos">
+          <img src="assets/solana.png" alt="Solana">
+          <img src="assets/ethereum.png" alt="Ethereum">
+          <img src="assets/base.png" alt="Base">
+          <img src="assets/hyperliquid.png" alt="Hyperliquid">
+        </div>
+      </div>
+
+      <a href="https://coinmarketcap.com/currencies/unstable-coin-sol/" target="_blank" class="cta-link">
+        View All $USDUC Markets →
+      </a>
+    </section>
+
+    <!-- Social Proof Section -->
+    <section class="section">
+      <h2 class="section-title">Who's Talking About $USDUC</h2>
+      <div class="tweets-grid">
+        <a href="https://x.com/krakenfx/status/1980836034318422391" target="_blank" class="tweet-link">
+          <span class="handle">@krakenfx</span> – Kraken Exchange
+        </a>
+        <a href="https://x.com/Pumpfun/status/1956798928969453601" target="_blank" class="tweet-link">
+          <span class="handle">@Pumpfun</span> – Pump.fun
+        </a>
+        <a href="https://x.com/chainlink/status/1991189743426568254" target="_blank" class="tweet-link">
+          <span class="handle">@chainlink</span> – Chainlink
+        </a>
+        <a href="https://x.com/phantom/status/1942273921803542779" target="_blank" class="tweet-link">
+          <span class="handle">@phantom</span> – Phantom Wallet
+        </a>
+        <a href="https://x.com/jessepollak/status/1974920834411294948" target="_blank" class="tweet-link">
+          <span class="handle">@jessepollak</span> – Base Lead
+        </a>
+        <a href="https://x.com/a1lon9/status/1955694624053314034" target="_blank" class="tweet-link">
+          <span class="handle">@a1lon9</span> – Pump.fun Founder
+        </a>
+        <a href="https://x.com/trading_axe/status/1961926041276158192" target="_blank" class="tweet-link">
+          <span class="handle">@trading_axe</span>
+        </a>
+        <a href="https://x.com/gainzy222/status/1976883599485157445" target="_blank" class="tweet-link">
+          <span class="handle">@gainzy222</span>
+        </a>
+        <a href="https://x.com/notsofast/status/1960391453537894538" target="_blank" class="tweet-link">
+          <span class="handle">@notsofast</span>
+        </a>
+        <a href="https://x.com/poe_real69/status/1995924147030069597" target="_blank" class="tweet-link">
+          <span class="handle">@poe_real69</span>
+        </a>
+        <a href="https://x.com/fuelkek/status/1937646922887761958" target="_blank" class="tweet-link">
+          <span class="handle">@fuelkek</span>
+        </a>
+        <a href="https://x.com/SolJakey/status/1961885805057827148" target="_blank" class="tweet-link">
+          <span class="handle">@SolJakey</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Documents Section -->
+    <section class="section">
+      <h2 class="section-title">Documents</h2>
+      <a href="https://docs.google.com/presentation/d/1tE1AkzWzbOITbNVP8RtYhI1APLxvN6MB-TKp_X1QDHE/edit?usp=sharing" target="_blank" class="doc-card">
+        <h3>📊 B2B Pitch Deck</h3>
+        <p>Full presentation for partners and investors</p>
+      </a>
+    </section>
+
+    <!-- Connect Section -->
+    <section class="section">
+      <h2 class="section-title">Connect</h2>
+      <div class="connect-links">
+        <a href="https://x.com/usduc_official" target="_blank" class="connect-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          @usduc_official
+        </a>
+        <a href="mailto:unstablecoinsolana@gmail.com" class="connect-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
+          unstablecoinsolana@gmail.com
+        </a>
+      </div>
+
+      <div class="final-cta">
+        <p>Build With Us. Join the Community.</p>
+        <p class="big-text">Embrace Volatility, Billions Will Follow.</p>
+      </div>
+    </section>
 
     <footer>
-      © 2025 - USDUC | <a href="https://drive.google.com/file/u/1/d/1LQXFtggAcUC1F6dYkITq7azFHOuPDgiU/view" target="_blank">MiCA WP</a> | <a href="https://usduc.io/privacy">Privacy</a> | <a href="https://usduc.io/terms">Terms</a>
+      © 2025 USDUC
+      <a href="https://drive.google.com/file/u/1/d/1LQXFtggAcUC1F6dYkITq7azFHOuPDgiU/view" target="_blank">MiCA WP</a>
+      <a href="https://usduc.io/privacy">Privacy</a>
+      <a href="https://usduc.io/terms">Terms</a>
     </footer>
   </div>
 </body>
